@@ -1,4 +1,5 @@
 import prismaClient from "../prisma";
+import { io } from "../app";
 
 // include é para incluir mais algo na resposta pro front, no caso, incluir as informações do usuário que está cadastrando
 class CreateMessageService {
@@ -12,6 +13,19 @@ class CreateMessageService {
         user: true,
       },
     });
+
+    // mandando informações da mensagem criada, para outros usuários
+    const infoWS = {
+      text: message.text,
+      user_id: message.user_id,
+      created_at: message.created_at,
+      user: {
+        name: message.user.name,
+        avatar_url: message.user.avatar_url,
+      },
+    };
+
+    io.emit("new_message", infoWS);
 
     return message;
   }

@@ -7,7 +7,7 @@ import { Server } from "socket.io";
 import { router } from "./routes";
 
 const app = express();
-app.use(cors);
+app.use(cors());
 
 // passando o app para o http subir o servidor para poder utilizar ele no server do webSocket
 const serverHttp = http.createServer(app);
